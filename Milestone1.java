@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -42,9 +43,9 @@ class TotalFar {
 }
 
 public class Milestone1 {
-    static List<Train> trainList;
-    static List<ReservationRequest> bookingList;
-    static List<AvailableSeats> availableSeats;
+    static List<Train> trainList = new ArrayList<Train>();
+    static List<ReservationRequest> bookingList = new ArrayList<ReservationRequest>();
+    static List<AvailableSeats> availableSeats = new ArrayList<AvailableSeats>();
     static int pnrNo = 100000001;
 
     public static void bookTicket(String origin, String destination, String date, String coach, int noOfPassengers) {
@@ -109,7 +110,7 @@ public class Milestone1 {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int noOfTrains = sc.nextInt();
+        int noOfTrains = Integer.parseInt(sc.nextLine());
         for (int i = 0; i < noOfTrains; i++) {
             Train train = new Train();
             Coaches coach = new Coaches();
