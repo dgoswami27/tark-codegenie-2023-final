@@ -52,13 +52,13 @@ public class Milestone1 {
         for (Train train : trainList) {
             if (train.trainRoute == r.route) 
             {
-                for (ReservationRequest r : bookingList) 
+                for (ReservationRequest r1 : bookingList) 
                 {
                     for (AvailableSeats a : availableSeats) 
                     {
                         if (r.coach == "SL") {
                             if (a.sl != 0) {
-                                bookingList.add(r);
+                                bookingList.add(r1);
                                 a.sl -= 1;
                                 int totalFar = t.sl * train.totalFar * r.noOfPassengers;
                                 System.out.println(pnrNo + " " + totalFar);
@@ -69,7 +69,7 @@ public class Milestone1 {
                         }
                         if (r.coach == "3A") {
                             if (a.b1 != 0) {
-                                bookingList.add(r);
+                                bookingList.add(r1);
                                 a.b1 -= 1;
                                 int totalFar = t.b1 * train.totalFar * r.noOfPassengers;
                                 System.out.println(pnrNo + " " + totalFar);
@@ -80,7 +80,7 @@ public class Milestone1 {
                         }
                         if (r.coach == "2A") {
                             if (a.a1 != 0) {
-                                bookingList.add(r);
+                                bookingList.add(r1);
                                 a.a1 -= 1;
                                 int totalFar = t.a1 * train.totalFar * r.noOfPassengers;
                                 System.out.println(pnrNo + " " + totalFar);
@@ -91,7 +91,7 @@ public class Milestone1 {
                         }
                         if (r.coach == "1A") {
                             if (a.h1 != 0) {
-                                bookingList.add(r);
+                                bookingList.add(r1);
                                 a.h1 -= 1;
                                 int totalFar = t.h1 * train.totalFar * r.noOfPassengers;
                                 System.out.println(pnrNo + " " + totalFar);
