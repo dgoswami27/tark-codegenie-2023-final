@@ -47,53 +47,53 @@ public class Milestone1 {
     static List<AvailableSeats> availableSeats = new ArrayList<AvailableSeats>();
     static int pnrNo = 100000001;
 
-    public static void bookTicket(String origin, String destination,String route, String date, String coach, int noOfPassengers) {
+    public static void bookTicket(ReservationRequest r) {
         TotalFar t = new TotalFar();
         for (Train train : trainList) {
-            if (train.trainRoute == route) 
+            if (train.trainRoute == r.route) 
             {
                 for (ReservationRequest r : bookingList) 
                 {
                     for (AvailableSeats a : availableSeats) 
                     {
-                        if (coach == "SL") {
+                        if (r.coach == "SL") {
                             if (a.sl != 0) {
                                 bookingList.add(r);
                                 a.sl -= 1;
-                                int totalFar = t.sl * train.totalFar * noOfPassengers;
+                                int totalFar = t.sl * train.totalFar * r.noOfPassengers;
                                 System.out.println(pnrNo + " " + totalFar);
                                 pnrNo++;
                             }
                             else 
                                 System.out.println("No Seats Available");
                         }
-                        if (coach == "3A") {
+                        if (r.coach == "3A") {
                             if (a.b1 != 0) {
                                 bookingList.add(r);
                                 a.b1 -= 1;
-                                int totalFar = t.b1 * train.totalFar * noOfPassengers;
+                                int totalFar = t.b1 * train.totalFar * r.noOfPassengers;
                                 System.out.println(pnrNo + " " + totalFar);
                                 pnrNo++;
                             }
                             else 
                                 System.out.println("No Seats Available");
                         }
-                        if (coach == "2A") {
+                        if (r.coach == "2A") {
                             if (a.a1 != 0) {
                                 bookingList.add(r);
                                 a.a1 -= 1;
-                                int totalFar = t.a1 * train.totalFar * noOfPassengers;
+                                int totalFar = t.a1 * train.totalFar * r.noOfPassengers;
                                 System.out.println(pnrNo + " " + totalFar);
                                 pnrNo++;
                             }
                             else 
                                 System.out.println("No Seats Available");
                         }
-                        if (coach == "1A") {
+                        if (r.coach == "1A") {
                             if (a.h1 != 0) {
                                 bookingList.add(r);
                                 a.h1 -= 1;
-                                int totalFar = t.h1 * train.totalFar * noOfPassengers;
+                                int totalFar = t.h1 * train.totalFar * r.noOfPassengers;
                                 System.out.println(pnrNo + " " + totalFar);
                                 pnrNo++;
                             }
@@ -159,7 +159,7 @@ public class Milestone1 {
             r.date = s[2];
             r.coach = s[3];
             r.noOfPassengers = Integer.parseInt(s[4]);
-            bookTicket(r.origin, r.departure,r.route, r.date, r.coach, r.noOfPassengers);
+            bookTicket(r);
         }
     }
 }
