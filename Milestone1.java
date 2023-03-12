@@ -45,9 +45,9 @@ public class Milestone1 {
     static List<Train> trainList;
     static List<ReservationRequest> bookingList;
     static List<AvailableSeats> availableSeats;
-    int pnrNo = 100000001;
+    static int pnrNo = 100000001;
 
-    public void bookTicket(String origin, String destination, String date, String coach, int noOfPassengers) {
+    public static void bookTicket(String origin, String destination, String date, String coach, int noOfPassengers) {
         TotalFar t = new TotalFar();
         for (Train train : trainList) {
             if (train.trainOrigin.equals(origin) && train.trainStop.equals(destination)) 
@@ -102,6 +102,8 @@ public class Milestone1 {
                     }
                 }
             }
+            else
+                System.out.println("No Trains Available");
         }
     }
 
@@ -115,7 +117,7 @@ public class Milestone1 {
             String s1 = sc.nextLine();
             String s2 = sc.nextLine();
 
-            String str1[] = s1.split("\\s");
+            String str1[] = s1.split(" ");
             train.trainNo = Integer.parseInt(str1[0]);
             train.trainOrigin = str1[1].substring(0, str1[1].length() - 3);
             int j = 0;
@@ -125,7 +127,7 @@ public class Milestone1 {
             train.trainStop = str1[2].substring(0, j);
             train.totalFar = Integer.parseInt(str1[2].substring(j + 2, str1[2].length()));
 
-            String str2[] = s2.split("\\s");
+            String str2[] = s2.split(" ");
             int n = str2[1].length();
             coach.s1 = Integer.parseInt(str2[1].substring(n - 3));
             n = str2[2].length();
@@ -149,7 +151,7 @@ public class Milestone1 {
             r.date = s[2];
             r.coach = s[3];
             r.noOfPassengers = Integer.parseInt(s[4]);
-            bookTicket(s[0], s[1], s[2], s[3], s[4]);
+            bookTicket(s[0], s[1], s[2], s[3], r.noOfPassengers);
         }
     }
 }
