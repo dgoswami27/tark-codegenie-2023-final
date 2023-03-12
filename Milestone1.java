@@ -3,23 +3,24 @@ import java.util.List;
 import java.util.Scanner;
 
 class Coaches {
-    int s1;
-    int s2;
-    int b1;
-    int a1;
-    int h1;
+    int sl = 0;
+    int b1 = 0;
+    int a1 = 0;
+    int h1 = 0;
 }
 
 class Train {
     int trainNo;
     String trainOrigin;
     String trainStop;
+    String trainRoute;
     int totalFar;
 }
 
 class ReservationRequest {
     String origin;
     String departure;
+    String route;
     String date;
     String coach;
     int noOfPassengers;
@@ -27,16 +28,14 @@ class ReservationRequest {
 
 class AvailableSeats {
     Coaches c = new Coaches();
-    int s1 = c.s1;
-    int s2 = c.s2;
+    int sl = c.sl;
     int b1 = c.b1;
     int a1 = c.a1;
     int h1 = c.h1;
 }
 
 class TotalFar {
-    int s1 = 1;
-    int s2 = 1;
+    int sl = 1;
     int b1 = 2;
     int a1 = 3;
     int h1 = 4;
@@ -48,24 +47,22 @@ public class Milestone1 {
     static List<AvailableSeats> availableSeats = new ArrayList<AvailableSeats>();
     static int pnrNo = 100000001;
 
-    public static void bookTicket(String origin, String destination, String date, String coach, int noOfPassengers) {
+    public static void bookTicket(String origin, String destination,String route, String date, String coach, int noOfPassengers) {
         TotalFar t = new TotalFar();
         for (Train train : trainList) {
-            if (train.trainOrigin.equals(origin) && train.trainStop.equals(destination)) 
+            if (train.trainRoute == route) 
             {
                 for (ReservationRequest r : bookingList) 
                 {
                     for (AvailableSeats a : availableSeats) 
                     {
                         if (coach == "SL") {
-                            if (a.s1 != 0 || a.s2 != 0) {
+                            if (a.sl != 0) {
                                 bookingList.add(r);
-                                if (a.s1 != 0)
-                                    a.s1 -= 1;
-                                else
-                                    a.s2 -= 1;
-                                int totalFar = t.s1 * train.totalFar * noOfPassengers;
+                                a.sl -= 1;
+                                int totalFar = t.sl * train.totalFar * noOfPassengers;
                                 System.out.println(pnrNo + " " + totalFar);
+                                pnrNo++;
                             }
                             else 
                                 System.out.println("No Seats Available");
@@ -76,6 +73,7 @@ public class Milestone1 {
                                 a.b1 -= 1;
                                 int totalFar = t.b1 * train.totalFar * noOfPassengers;
                                 System.out.println(pnrNo + " " + totalFar);
+                                pnrNo++;
                             }
                             else 
                                 System.out.println("No Seats Available");
@@ -86,6 +84,7 @@ public class Milestone1 {
                                 a.a1 -= 1;
                                 int totalFar = t.a1 * train.totalFar * noOfPassengers;
                                 System.out.println(pnrNo + " " + totalFar);
+                                pnrNo++;
                             }
                             else 
                                 System.out.println("No Seats Available");
@@ -96,6 +95,7 @@ public class Milestone1 {
                                 a.h1 -= 1;
                                 int totalFar = t.h1 * train.totalFar * noOfPassengers;
                                 System.out.println(pnrNo + " " + totalFar);
+                                pnrNo++;
                             }
                             else 
                                 System.out.println("No Seats Available");
@@ -120,39 +120,46 @@ public class Milestone1 {
 
             String str1[] = s1.split(" ");
             train.trainNo = Integer.parseInt(str1[0]);
-            train.trainOrigin = str1[1].substring(0, str1[1].length() - 3);
+            train.trainOrigin = str1[1].substring(0, str1[1].length() - 2);
             int j = 0;
             while (str1[2].charAt(j) != '-') {
                 j++;
             }
             train.trainStop = str1[2].substring(0, j);
+            train.trainRoute = train.trainOrigin + train.trainStop;
             train.totalFar = Integer.parseInt(str1[2].substring(j + 2, str1[2].length()));
 
             String str2[] = s2.split(" ");
             int n = str2[1].length();
-            coach.s1 = Integer.parseInt(str2[1].substring(n - 3));
-            n = str2[2].length();
-            coach.s2 = Integer.parseInt(str2[2].substring(n - 3));
-            n = str2[3].length();
-            coach.b1 = Integer.parseInt(str2[3].substring(n - 3));
-            n = str2[4].length();
-            coach.a1 = Integer.parseInt(str2[4].substring(n - 3));
-            n = str2[5].length();
-            coach.h1 = Integer.parseInt(str2[5].substring(n - 3));
+            for(int k=1; k<=n; k++)
+            {
+                if(str2[k].charAt(0) == 'S')
+                coach.sl += Integer.parseInt(str2[k].substring(n-2));
+
+                if(str2[k].charAt(0) == 'B')
+                coach.b1 += Integer.parseInt(str2[k].substring(n-2));
+
+                if(str2[k].charAt(0) == 'A')
+                coach.a1 += Integer.parseInt(str2[k].substring(n-2));
+
+                if(str2[k].charAt(0) == 'H')
+                coach.h1 += Integer.parseInt(str2[k].substring(n-2));
+            }
 
             trainList.add(train);
         }
 
         while (true) {
             String str = sc.nextLine();
-            String s[] = str.split("\\s");
+            String s[] = str.split(" ");
             ReservationRequest r = new ReservationRequest();
             r.origin = s[0];
             r.departure = s[1];
+            r.route = r.origin + r.departure;
             r.date = s[2];
             r.coach = s[3];
             r.noOfPassengers = Integer.parseInt(s[4]);
-            bookTicket(s[0], s[1], s[2], s[3], r.noOfPassengers);
+            bookTicket(r.origin, r.departure,r.route, r.date, r.coach, r.noOfPassengers);
         }
     }
 }
